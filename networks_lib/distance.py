@@ -75,16 +75,24 @@ def bfs_distance(mat):
 def get_components(mat):
     dist_mat = bfs_distance(mat)
     num_vertices = mat.shape[0]
-    available = [False for _ in range(num_vertices)]
+    available = [True for _ in range(num_vertices)]
 
     components = []
 
     # finish this loop
     while any(available):
+
+        # get the current node
+        current_node = available.index(True)
+
+        # get components for this node
         components.append(np.where(dist_mat[current_node] < np.inf)[0].tolist())
+
+        # finished using this node
         available[current_node] = False
 
-        components = np.unique(components)
+    # filter only unique components
+    components = np.unique(components)
 
     # this is for testing purposes remove from final solution
     # components = [np.arange(num_vertices)]
