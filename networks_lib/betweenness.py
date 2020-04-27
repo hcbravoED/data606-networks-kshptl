@@ -1,4 +1,5 @@
 import numpy as np
+from collections import deque
 
 ## TODO: Implement this function
 ##
@@ -19,10 +20,11 @@ def edge_counts(vertex, mat):
     res = np.zeros((num_vertices, num_vertices))
     return res
 
+
 ## Compute edge betweeness for a graph
-## 
-## Input: 
-##   - mat (np.array): n-by-n adjacency matrix. 
+##
+## Input:
+##   - mat (np.array): n-by-n adjacency matrix.
 ##
 ## Output:
 ##   (np.array): n-by-n matrix of edge betweenness
@@ -33,4 +35,4 @@ def edge_betweenness(mat):
     num_vertices = mat.shape[0]
     for i in range(num_vertices):
         res += edge_counts(i, mat)
-    return res / 2.
+    return res / 2.0
