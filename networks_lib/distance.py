@@ -94,7 +94,4 @@ def get_components(mat):
     # filter only unique components
     components = np.unique(components)
 
-    # this is for testing purposes remove from final solution
-    # components = [np.arange(num_vertices)]
-
     return components

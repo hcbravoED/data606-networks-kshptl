@@ -19,34 +19,47 @@ import math
 ## Note: Assume input matrix mat is binary and symmetric
 def girvan_newman(mat, K):
     num_vertices = mat.shape[0]
-    
+
     # make a copy of matrix since we are going
     # to update it as we remove edges
     work_mat = mat.copy()
-    
+
     components = get_components(mat)
-       
+
+    # if only 1 component, get_components() returns a 1D list with all vertices....convert this to 2D list for while loop to work
+    if isinstance(components[0], list):
+        pass
+    else:
+        components = [components]
+
     while len(components) < K:
+        # print(components)
         # compute edge betweenness (one component at a time)
         eb = np.zeros((num_vertices, num_vertices))
         for vertices in components:
-            cur_mat = work_mat[vertices,:][:, vertices]
+            cur_mat = work_mat[vertices, :][:, vertices]
             cur_eb = edge_betweenness(cur_mat)
             for i in range(len(vertices)):
                 eb[vertices[i], vertices] = cur_eb[i, :]
-                
-        # remove edge and get components
-        # YOU NEED TO FINISH THIS PART
-        
-        # These lines is for testing only, remove in your solution
-        components = []
-        vertices_per_component = math.ceil( num_vertices / K )
-        for i in range(K):
-            start = i * vertices_per_component
-            end = min(start+vertices_per_component, num_vertices-1)
-            components.append(np.arange(end, start, -1))
-            
+
+        # find location of maximum betweeness
+        edge = np.where(eb == eb.max())
+
+        # remove that edge
+        work_mat[edge[0][0], edge[0][1]] = 0
+        work_mat[edge[0][1], edge[0][0]] = 0
+
+        # get new components
+        components = get_components(work_mat)
+
+        if isinstance(components[0], list):
+            pass
+        else:
+            components = [components]
+        # print(components)
+
     return components_to_assignment(components, num_vertices)
+
 
 ## Turn list of components to list of assignments
 ##
