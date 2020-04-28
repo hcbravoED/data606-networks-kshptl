@@ -110,6 +110,7 @@ def edge_counts(vertex, mat):
     return edge_count
 
 
+
 ## Compute edge betweeness for a graph
 ##
 ## Input:
