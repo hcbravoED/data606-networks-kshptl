@@ -94,4 +94,4 @@ def kmedioids(dmat, K, niter=10):
         assignment = assign(dmat, medioids)
         medioids = get_medioids(dmat, assignment, K)
         print(old_medioids, medioids)
-    return assignment
+    return np.array(assignment)
